@@ -16,7 +16,7 @@ export class BackupController {
         return;
       }
 
-      exec(command, (error: any, stdout: any, stderr: any) => {
+      exec(command, { maxBuffer: 1024 * 5000 }, (error: any, stdout: any, stderr: any) => {
         if (error) {
           console.log(`error: ${error.message}`);
           return;
