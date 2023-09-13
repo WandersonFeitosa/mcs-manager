@@ -6,7 +6,7 @@ dotenv.config();
 
 const port = process.env.PORT ? Number(process.env.PORT) : 3333;
 
-const host = process.env.HOST || "0.0.0.0";
+const host = process.env.HOST || "::1";
 
 const app = express();
 
