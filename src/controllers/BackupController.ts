@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const filePath = process.env.FILE_PATH || "/home/backup";
+const filePath = process.env.FILE_PATH || "/home/ssd/ncsmp";
+const backupFileName = process.env.BACKUP_FILE_NAME || "start-backup.sh";
 
 export class BackupController {
   async startBackup(req: Request, res: Response) {
@@ -30,16 +31,16 @@ export class BackupController {
       });
     };
 
-    exec(`ls ${filePath}/lock`, (error: any, stdout: any, stderr: any) => {
+    exec(`ls ${filePath}/backup-lock`, (error: any, stdout: any, stderr: any) => {
       if (stdout) {
         lockFileFound = true;
         res.status(200).json({ message: "Um backup já está em andamento" });
       } else {
         res.status(200).json({ message: "Backup iniciado com sucesso!" });
 
-        executeNextCommand(`touch ${filePath}/lock`, () => {
-          executeNextCommand(`${filePath}/minecraft-backup.sh`, () => {
-            executeNextCommand(`rm ${filePath}/lock`, () => {
+        executeNextCommand(`touch ${filePath}/backup-lock`, () => {
+          executeNextCommand(`${filePath}/${backupFileName}`, () => {
+            executeNextCommand(`rm ${filePath}/backup-lock`, () => {
               return;
             });
           });
