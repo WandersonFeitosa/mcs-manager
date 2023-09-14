@@ -14,11 +14,14 @@ export class LogsController {
         const logFilePath = `/home/ssd/ncsmp/logs/${log}`;
 
         try {
-            // Read the content of the log file asynchronously
-            const logContent = await fs.promises.readFile(logFilePath, 'utf-8');
-            res.status(200).send(logContent);
+            fs.readFile(logFilePath, (err, data) => {
+                if (err) {
+                    res.status(404).send("Log file not found");
+                } else {
+                    res.send(data);
+                }
+            });
         } catch (err) {
-            // Handle any errors (e.g., file not found)
             res.status(404).send("Log file not found");
         }
     }

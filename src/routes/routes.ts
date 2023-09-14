@@ -8,7 +8,7 @@ const routes = Router();
 
 routes.use(cors());
 
-routes.use(authMiddleware);
+// routes.use(authMiddleware);
 
 routes.get("/startBackup", new BackupController().startBackup);
 routes.get("/getLogsNames", new LogsController().getFileNames);
