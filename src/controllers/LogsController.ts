@@ -16,13 +16,13 @@ export class LogsController {
         try {
             fs.readFile(logFilePath, (err, data) => {
                 if (err) {
-                    res.status(404).send("Log file not found");
+                    res.status(404).json({ message: "Arquivo não encontrado, por favor verifique se o nome está correto", sucess: false });
                 } else {
                     res.send(data);
                 }
             });
         } catch (err) {
-            res.status(404).send("Log file not found");
+            res.status(404).json({ message: "Arquivo não , por favor verifique se o nome está correto", sucess: false });
         }
     }
 }
