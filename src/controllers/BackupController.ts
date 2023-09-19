@@ -37,8 +37,10 @@ export class BackupController {
         res.status(200).json({ message: "Um backup já está em andamento" });
       } else {
         res.status(200).json({ message: "Backup iniciado com sucesso!" });
-        executeNextCommand(`${filePath}/${backupFileName}`, () => {
-          return;
+        executeNextCommand(`touch ${filePath}/backup-lock`, () => {
+          executeNextCommand(`${filePath}/${backupFileName}`, () => {
+            return;
+          });
         });
       }
     });
