@@ -13,5 +13,7 @@ routes.use(authMiddleware);
 routes.get("/startBackup", new BackupController().startBackup);
 routes.get("/getLogsNames", new LogsController().getFileNames);
 routes.get("/getLog/:log", new LogsController().sendLog);
+routes.get("/getBackupList", new BackupController().getBackupList);
+routes.get("/getBackup/:backupName", new BackupController().downloadBackup);
 
 export default routes;
