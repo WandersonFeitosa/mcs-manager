@@ -4,9 +4,9 @@ import routes from "./routes/routes";
 
 dotenv.config();
 
-const port = process.env.PORT ? Number(process.env.PORT) : 3333;
+const port = process.env.PORT ? Number(process.env.PORT) : 3003;
 
-const host = process.env.HOST || "::1";
+const host = process.env.HOST || "localhost";
 
 const app = express();
 
@@ -16,10 +16,7 @@ app.use(routes);
 
 function startServer() {
   try {
-    app.listen({
-      host,
-      port,
-    });
+    app.listen(port);
   } catch (err) {
     console.error(err);
   }

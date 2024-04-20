@@ -11,6 +11,7 @@ routes.use(cors());
 routes.use(authMiddleware);
 
 routes.get("/startBackup", new BackupController().startBackup);
+routes.get("/startServer", new BackupController().startServer);
 routes.get("/getLogsNames", new LogsController().getFileNames);
 routes.get("/getLog/:log", new LogsController().sendLog);
 
