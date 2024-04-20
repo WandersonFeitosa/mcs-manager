@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import { exec } from "child_process";
 import dotenv from "dotenv";
+import { getFileNamesInFolder } from "../utils/getFileNamesInFolder";
 
 dotenv.config();
 
 const filePath = process.env.FILE_PATH || "/home/ssd/tcsmp";
 const backupFileName = process.env.BACKUP_FILE_NAME || "minecraft_backup.sh";
 const startFileName = process.env.START_FILE_NAME || "start_server.sh";
+const absoluteBackupPath = process.env.ABSOLUTE_BACKUP_PATH || "/home/ssd";
 
 export class BackupController {
   async startBackup(req: Request, res: Response) {
@@ -53,7 +55,39 @@ export class BackupController {
       }
     );
   }
+  async getBackupList(req: Request, res: Response) {
+    let filesList: string[] = await getFileNamesInFolder(`/home/ssd`);
 
+    for (let i = 0; i < filesList.length; i++) {
+      if (!filesList[i].startsWith("backup")) {
+        filesList.splice(i, 1);
+      }
+    }
+    res.status(200).json({ filesList });
+  }
+
+  async downloadBackup(req: Request, res: Response) {
+    const { backupName } = req.params;
+
+    const absolutePath = `${absoluteBackupPath}/${backupName}`;
+
+    try {
+      exec(`ls ${absolutePath}`, (error: any, stdout: any, stderr: any) => {
+        if (error) {
+          res.status(404).json({ message: "Arquivo não encontrado" });
+          return;
+        }
+        if (stderr) {
+          res.status(404).json({ message: "Arquivo não encontrado" });
+          return;
+        }
+
+        res.download(absolutePath);
+      });
+    } catch (error) {
+      res.status(404).json({ message: "Arquivo não encontrado" });
+    }
+  }
   async startServer(req: Request, res: Response) {
     exec(
       `${filePath}/${startFileName}`,
