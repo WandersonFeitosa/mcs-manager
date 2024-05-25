@@ -4,6 +4,7 @@ import { BackupController } from "../controllers/BackupController";
 import { authMiddleware } from "../middlewares/authMiddleware";
 import { LogsController } from "../controllers/LogsController";
 import { UserController } from "../controllers/UserController";
+import { CommandsController } from "../controllers/CommandsController";
 
 const routes = Router();
 
@@ -19,5 +20,9 @@ routes.get("/getBackupList", new BackupController().getBackupList);
 routes.get("/getBackup/:backupName", new BackupController().downloadBackup);
 routes.post("/validateUser", new UserController().validateUser);
 routes.post("/upload-backup", new BackupController().uploadBackup);
+routes.post(
+  "/execute-command",
+  new CommandsController().executeCommandOnScreen
+);
 
 export default routes;
