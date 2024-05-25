@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { exec } from "child_process";
 import dotenv from "dotenv";
 import { getFileNamesInFolder } from "../utils/getFileNamesInFolder";
+import { Storage } from "@google-cloud/storage";
+import { sendMessageToDiscord } from "../utils/sendMessageToDiscord";
 
 dotenv.config();
 
@@ -106,5 +108,42 @@ export class BackupController {
     );
 
     res.status(200).json({ message: "Servidor iniciado com sucesso!" });
+  }
+
+  async uploadBackup(req: Request, res: Response) {
+    const { fileName } = req.body;
+    const backupsFolderAbsolutePath: string =
+      process.env.BACKUPS_FOLDER_PATH || "/home/hd";
+    try {
+      const storage = new Storage({
+        keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
+      });
+      const bucketName = process.env.BUCKET_NAME as string;
+
+      const filePath = `${backupsFolderAbsolutePath}/${fileName}`;
+
+      res.status(200).json({ message: "Backup iniciado com sucesso!" });
+
+      console.log(`Uploading file ${fileName} to ${bucketName}...`);
+
+      const [file] = await storage.bucket(bucketName).upload(filePath);
+
+      console.log(`File ${file.name} uploaded to ${bucketName}`);
+
+      await sendMessageToDiscord(
+        `**${fileName}** foi enviado para o Google Cloud Storage com sucesso!`
+      );
+
+      return;
+    } catch (error: any) {
+      console.log(error);
+
+      await sendMessageToDiscord(
+        `Erro ao fazer upload do arquivo **${fileName}**:` +
+          "```" +
+          error +
+          "```"
+      );
+    }
   }
 }
