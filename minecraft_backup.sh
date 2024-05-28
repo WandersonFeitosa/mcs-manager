@@ -3,7 +3,7 @@ channelId="1242165928804749505"
 apiUrl="http://34.122.46.191"
 msgroute="$apiUrl/v1/bob/send-server-message"
 updateStatusRoute="$apiUrl/v1/minecraft/update-status"
-uploadBackupRoute="http://35.222.128.103:3003/upload-backup"
+uploadBackupRoute="http://localhost:3003/upload-backup"
 remaining_seconds=300
 
 function send_message (){
@@ -46,4 +46,4 @@ rm /home/ssd/tcsmp/backup-lock
 
 curl -X PATCH -H "Content-Type: application/json" -d "{\"status\": \"pending\"}" "$updateStatusRoute"
 
-curl -X POST -H "Authorization : Bearer morango" -H "Content-Type: application/json" -d "{\"fileName\": \"$file_name\"}" "$uploadBackupRoute"
+curl -X POST -H "Authorization: Bearer morango" -H "Content-Type: application/json" -d "{\"fileName\": \"$file_name\"}" "$uploadBackupRoute"
