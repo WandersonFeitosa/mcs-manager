@@ -3,15 +3,17 @@ import { getFileNamesInFolder } from "../utils/getFileNamesInFolder";
 import * as fs from "fs";
 
 export class LogsController {
-  logsFilePath = process.env.LOGS_FILE_PATH || "/home/ssd/tcsmp/logs";
+  
   async getFileNames(req: Request, res: Response) {
-    const fileNames = await getFileNamesInFolder(this.logsFilePath);
+    const logsFilePath = process.env.LOGS_FILE_PATH || "/home/ssd/tcsmp/logs";
+    const fileNames = await getFileNamesInFolder(logsFilePath);
     res.status(200).json({ fileNames });
   }
 
   async sendLog(req: Request, res: Response) {
     const { log } = req.params;
-    const logFilePath = `${this.logsFilePath}/${log}`;
+    const logsFilePath = process.env.LOGS_FILE_PATH || "/home/ssd/tcsmp/logs";
+    const logFilePath = `${logsFilePath}/${log}`;
 
     try {
       fs.readFile(logFilePath, (err, data) => {

@@ -3,6 +3,7 @@ channelId="1242165928804749505"
 apiUrl="http://34.122.46.191"
 msgroute="$apiUrl/v1/bob/send-server-message"
 updateStatusRoute="$apiUrl/v1/minecraft/update-status"
+uploadBackupRoute="http://35.222.128.103:3003/upload-backup"
 remaining_seconds=300
 
 function send_message (){ 
@@ -33,8 +34,9 @@ screen -S tcsmp -X stuff "stop^M"
 sleep 20
 
 backup_date=$(date +%Y-%m-%d)
+file_name="backup-$backup_date.zip"
 
-zip -r "/home/hd/backup-$backup_date.zip" "/home/ssd/tcsmp"
+zip -r "/home/hd/$file_name" "/home/ssd/tcsmp"
 
 curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"Backup finalizado, iniciando o servidor\", \"channelId\": \"${channelId}\"}" "$msgroute"
 
@@ -44,4 +46,4 @@ rm /home/ssd/tcsmp/backup-lock
 
 curl -X PATCH -H "Content-Type: application/json" -d "{\"status\": \"pending\"}" "$updateStatusRoute"
 
-
+curl -X POST -H "Content-Type: application/json" -d "{\"fileName\": \"$file_name\"}" "$uploadBackupRoute"
