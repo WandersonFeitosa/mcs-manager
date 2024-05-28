@@ -6,17 +6,17 @@ updateStatusRoute="$apiUrl/v1/minecraft/update-status"
 uploadBackupRoute="http://35.222.128.103:3003/upload-backup"
 remaining_seconds=300
 
-function send_message (){ 
+function send_message (){
     curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"$1\", \"channelId\": \"$channelId\"}" "$msgroute"
     screen -S tcsmp -X stuff "say $1^M"
 }
 
 while [ $remaining_seconds -gt 0 ]; do
-    if [ $remaining_seconds -gt 60 ]; then    
+    if [ $remaining_seconds -gt 60 ]; then
         send_message "O servidor será reiniciado para a realização do backup em $((remaining_seconds / 60)) minutos, aguarde que logo voltaremos"
         remaining_seconds=$((remaining_seconds - 60))
         sleep 60
-    elif [ $remaining_seconds -gt 30 ]; then
+        elif [ $remaining_seconds -gt 30 ]; then
         send_message "O servidor será reiniciado para a realização do backup em 1 minuto, aguarde que logo voltaremos"
         remaining_seconds=$((remaining_seconds - 30))
         sleep 30
@@ -46,4 +46,4 @@ rm /home/ssd/tcsmp/backup-lock
 
 curl -X PATCH -H "Content-Type: application/json" -d "{\"status\": \"pending\"}" "$updateStatusRoute"
 
-curl -X POST -H "Content-Type: application/json" -d "{\"fileName\": \"$file_name\"}" "$uploadBackupRoute"
+curl -X POST -H "Authorization : Bearer morango" -H "Content-Type: application/json" -d "{\"fileName\": \"$file_name\"}" "$uploadBackupRoute"
