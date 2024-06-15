@@ -31,6 +31,7 @@ done
 
 
 curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"Iniciando backup, servidor fechado\", \"channelId\": \"${channelId}\"}" "$msgroute"
+curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"Iniciando backup, servidor fechado\", \"channelId\": \"${hybrid_channelId}\"}" "$msgroute"
 screen -S tcsmp -X stuff "stop^M"
 
 sleep 20
@@ -41,6 +42,7 @@ file_name="backup-$backup_date.zip"
 zip -r "/home/hd/$file_name" "/home/ssd/tcsmp"
 
 curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"Backup finalizado, iniciando o servidor\", \"channelId\": \"${channelId}\"}" "$msgroute"
+curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"Backup finalizado, iniciando o servidor\", \"channelId\": \"${hybrid_channelId}\"}" "$msgroute"
 
 screen -S tcsmp -X stuff "bash run.sh^M"
 
