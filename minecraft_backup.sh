@@ -1,5 +1,6 @@
 #!/bin/bash
 channelId="1242165928804749505"
+hybrid_channelId="1250125769196437586"
 apiUrl="http://34.122.46.191"
 msgroute="$apiUrl/v1/bob/send-server-message"
 updateStatusRoute="$apiUrl/v1/minecraft/update-status"
@@ -8,6 +9,7 @@ remaining_seconds=300
 
 function send_message (){
     curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"$1\", \"channelId\": \"$channelId\"}" "$msgroute"
+    curl -X POST -H "Content-Type: application/json" -d "{\"message\": \"$1\", \"channelId\": \"$hybrid_channelId\"}" "$msgroute"
     screen -S tcsmp -X stuff "say $1^M"
 }
 
