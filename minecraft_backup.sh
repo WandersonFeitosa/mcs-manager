@@ -1,7 +1,7 @@
 #!/bin/bash
 channelId="1242165928804749505"
 hybrid_channelId="1250125769196437586"
-apiUrl="http://34.122.46.191"
+apiUrl="http://34.46.238.227"
 msgroute="$apiUrl/v1/bob/send-server-message"
 updateStatusRoute="$apiUrl/v1/minecraft/update-status"
 uploadBackupRoute="http://localhost:3003/upload-backup"
