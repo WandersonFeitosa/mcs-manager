@@ -3,7 +3,6 @@ import { getFileNamesInFolder } from "../utils/getFileNamesInFolder";
 import * as fs from "fs";
 
 export class LogsController {
-  
   async getFileNames(req: Request, res: Response) {
     const logsFilePath = process.env.LOGS_FILE_PATH || "/home/ssd/tcsmp/logs";
     const fileNames = await getFileNamesInFolder(logsFilePath);
@@ -33,5 +32,12 @@ export class LogsController {
         sucess: false,
       });
     }
+  }
+
+  async getLatestLog(req: Request, res: Response) {
+    const file = fs.readFileSync("/home/ssd/tcsmp/logs/latest.log", "utf8");
+    return res
+      .status(200)
+      .json({ message: "Comando executado com sucesso!", file });
   }
 }

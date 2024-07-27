@@ -1,6 +1,6 @@
 #!/bin/bash
 channelId="1242165928804749505"
-hybrid_channelId="1250125769196437586"
+hybrid_channelId="1264046649458692177"
 apiUrl="http://34.44.97.77"
 msgroute="$apiUrl/v1/bob/send-server-message"
 updateStatusRoute="$apiUrl/v1/minecraft/update-status"

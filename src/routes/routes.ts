@@ -24,5 +24,6 @@ routes.post(
   "/execute-command",
   new CommandsController().executeCommandOnScreen
 );
+routes.get("/read-content", new LogsController().getLatestLog);
 
 export default routes;
