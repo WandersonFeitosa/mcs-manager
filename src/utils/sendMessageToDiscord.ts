@@ -14,7 +14,7 @@ export async function sendMessageToDiscord(message: string) {
     );
     return response.data;
   } catch (error: any) {
-    const errorMessage = error.response.data.message;
-    console.log(errorMessage);
+    const errorMessage = error?.response?.data?.message;
+    console.log(errorMessage || error);
   }
 }
